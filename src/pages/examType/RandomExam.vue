@@ -11,32 +11,37 @@
       </div>
       <div>
         <b>解析：</b>
-        {{item.bestanswer}}
+        <span v-html="item.bestanswer"></span>
       </div>
     </div>
     <div>
         <bottom @click="clickHandle"></bottom>
     </div>
+    <loadings v-if="loadding"></loadings>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import { Loading, Alert, Badge } from "vux";
+import {  Alert, Badge } from "vux";
 import Select from "../../components/Select/Select";
+import loading from '../../components/Loading/loading'
 import Bottom from '../../components/Tabbar/ExamBottom'
 export default {
   name: "RandomExam",
   data() {
     return {
       item: {},
-      select: ""
+      select: "",
+      loadding:false,
+      i:1
     };
   },
   components: {
     Selects: Select,
     Badge,
-    Bottom
+    Bottom,
+    loadings:loading
   },
   created() {
     this.init();
@@ -52,14 +57,17 @@ export default {
   },
   methods: {
     init() {
-      this.update(1).then(res => {
+      this.update(this.i).then(res => {
         this.item = res;
       });
     },
      clickHandle ({type}) {
         switch (type) {
-          case 'pre': alert("pre"); break;
-          case 'next':alert("next"); break;
+          case 'pre': setTimeout(()=>{this.loadding=true},500); break;
+          case 'next':
+             this.update(this.i++).then(res => {
+            this.item = res;
+          });; break;
           case 'add': alert("add"); break;
         }
       },
@@ -133,7 +141,7 @@ export default {
 <style lang="scss" scoped>
 body,
 html {
-  background: #fff !important;
+  background: #fff ;
 }
 
 .explain {

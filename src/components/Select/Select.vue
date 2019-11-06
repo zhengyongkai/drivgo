@@ -59,7 +59,7 @@ export default {
   .type {
     font-size: 15px;
      height: 30px;
-    width: 2.5rem;
+    width: 100px;
     border: 1px solid #d4e157;
     color:#d4e157;
     text-align: center;
@@ -68,6 +68,7 @@ export default {
     
   }
   .title{
+    flex-grow:1;
     line-height: 26px;
   }
 }
