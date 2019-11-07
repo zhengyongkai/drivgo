@@ -8,11 +8,24 @@ import './config/rem'
 import axios from 'axios';
 Vue.prototype.$axios = axios;
 Vue.config.productionTip = false
+import VueTouch from 'vue-touch'
+
+Vue.use(VueTouch, {
+  name: 'v-touch'
+})
+
+VueTouch.config.swipe = {
+
+  threshold: 100 //手指左右滑动距离
+
+}
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
-  components: { App },
+  components: {
+    App
+  },
   template: '<App/>'
 })

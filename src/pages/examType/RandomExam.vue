@@ -15,7 +15,7 @@
       </div>
     </div>
     <div>
-        <bottom @click="clickHandle"></bottom>
+        <bottom @click="clickHandle" class="bottom"></bottom>
     </div>
     <loadings v-if="loadding"></loadings>
   </div>
@@ -152,5 +152,12 @@ html {
   div {
     margin-bottom: 0.3rem;
   }
+}
+.bottom{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  margin-top: 20px
 }
 </style>

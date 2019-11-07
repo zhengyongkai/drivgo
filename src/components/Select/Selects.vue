@@ -1,7 +1,8 @@
 <template>
   <div class="body">
-    <img src />
-    <div class="top">
+    <div class="content">
+      <img src />
+       <div class="top">
       <div class="type">
         <span v-if="currentInfo.Type==2">单选</span>
         <span v-else>判断</span>
@@ -18,7 +19,17 @@
       <div>{{o.label}}</div>
     </div>
     </div>
-  
+    </div>
+    <div class="explain">
+      <div>
+        <b>标准答案：</b>
+        {{currentInfo[currentInfo.ta]}}
+      </div>
+      <div>
+        <b>解析：</b>
+        <span v-html="currentInfo.bestanswer"></span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -49,9 +60,13 @@ export default {
 <style lang="scss" scoped>
 .body {
   font-size: 20px;
-  padding: 0 1rem;
+  
   color: #000;
 
+}
+.content{
+  padding: 0 1rem ;
+  
 }
 .top {
    display: flex;
@@ -82,6 +97,7 @@ export default {
 }
 
 .answer{
+  height: 100%;
   .item{
     display: flex;
     >:first-child{
@@ -114,6 +130,16 @@ export default {
       margin-right: 0.5rem;
       
     }
+  }
+}
+
+.explain {
+  background: #fff;
+  font-size: 18px;
+  padding: 1rem 1rem;
+  margin-top: 1rem;
+  div {
+    margin-bottom: 0.3rem;
   }
 }
 </style>

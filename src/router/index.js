@@ -14,6 +14,11 @@ export default new Router({
       component: RandomExam
     },
     {
+      path: '/',
+      name: 'Hello',
+      component: HelloWorld
+    },
+    {
       path: '/ExamSelect',
       name: 'ExamSelect',
       component: ExamSelect
