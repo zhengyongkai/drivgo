@@ -1,7 +1,6 @@
 <template>
-  <div >
-      ss
-      <image src='../../assets/logo.png' class="wid"/>
+  <div class="body">
+      
   </div>
 </template>
 
@@ -15,5 +14,11 @@ export default {
 .wid{
     width:"100px";
     height:"100px"
+}
+
+.body{
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 </style>
