@@ -3,7 +3,7 @@
     <div class="content">
       <div class="items">
         <div class="item type">
-          <img src="../../image/1.png" />
+          <img src="../../image/6.png" />
           <div class="text">随机练习</div>
         </div>
         <div class="item item-round">
@@ -27,14 +27,14 @@
           ></roundprogress>
         </div>
         <div class="item type">
-          <img src="../../image/3.png" />
+          <img src="../../image/8.png" />
           <div class="text">我的错题</div>
         </div>
       </div>
 
       <div class="items">
         <div class="item type">
-          <img src="../../image/2.png" />
+          <img src="../../image/5.png" />
           <div class="text">章节练习</div>
         </div>
         <div class="item item-round">
@@ -58,21 +58,24 @@
           ></roundprogress>
         </div>
         <div class="item type">
-          <img src="../../image/4.png" />
+          <img src="../../image/7.png" />
           <div class="text">我的收藏</div>
         </div>
+         
       </div>
+      <div class="text textcenter tips">神器在手，驾照我有</div>
+     
     </div>
     <div>
          <group>
              <cell title="我的答题统计" is-link>
-                <img slot="icon" width="20" style="display:block;margin-right:5px;" cell-font-size='10px' src="../../image/pratice.png">
+                <img slot="icon" width="20" style="display:block;margin:0  15px 0 5px;" cell-font-size='10px' src="../../image/pratice.png">
             </cell>
          </group>
     </div>
   </div>
 </template><script>
-import { Tab, TabItem,Group,Cell } from "vux";
+import { Tab, TabItem, Group, Cell } from "vux";
 import { Badge } from "vux";
 import roundprogress from "@/components/tools/roundprogress";
 import StandardTop from "@/components/Tabbar/StandardTop";
@@ -112,12 +115,20 @@ export default {
 .body {
   font-size: 16px;
 
+  .content{
+     background: #fff;
+  }
   .items {
-    padding: 1rem 1rem;
+    padding: 0.8rem 1rem;
+   
     display: flex;
     flex-wrap: nowrap;
-    background: #fff;
-
+   
+    img {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+    }
     .item-round {
       flex: 30%;
     }
@@ -138,8 +149,18 @@ export default {
     }
   }
 
-  .vux-label{
-      font-size:2px;
+  .tips{
+    padding:0.2rem 0 ;
+    color:#B599B5;
+    font-size:12px;
   }
+
+  .vux-label {
+    font-size: 2px;
+  }
+}
+
+.textcenter{
+  text-align:center;
 }
 </style>

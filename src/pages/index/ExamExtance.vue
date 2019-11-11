@@ -1,13 +1,16 @@
 <template>
   <div class="body">
-       <div class="top">
-          <standardtop></standardtop>
-       </div>
+       <tab custom-bar-width="50px">
+            <tab-item selected>
+                <router-link to="/one">科目一</router-link>
+
+            </tab-item>
+            <tab-item >
+                <router-link to="/four">科目二</router-link>
+            </tab-item>
+        </tab>
         <div>
           <router-view></router-view>
-        </div>
-        <div>
-            <standardbottom></standardbottom>
         </div>
 
   </div>
