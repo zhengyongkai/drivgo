@@ -1,12 +1,37 @@
 <template>
   <div class="body">
-      ss
+       <tab custom-bar-width="50px">
+         
+             <tab-item >
+                <router-link to="/skill/two">科目二</router-link>
+
+            </tab-item>
+            <tab-item >
+                <router-link to="/skill/three">科目三</router-link>
+
+            </tab-item>
+           
+        </tab>
+        <div>
+          <router-view></router-view>
+        </div>
   </div>
 </template>
 
 <script>
+import { Tab, TabItem } from 'vux'
 export default {
-  name: "SubjectTwo"
+  name: "SubjectTwo",
+  data(){
+    return {
+
+    }
+  },
+  components:{
+    Tab,
+    TabItem
+  }
+  
 };
 </script>
 

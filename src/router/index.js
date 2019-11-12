@@ -7,8 +7,12 @@ import Index from '@/pages/index/Index'
 import ExamExtance from '@/pages/index/ExamExtance'
 import SubjectOne from '@/pages/index/SubjectOne'
 import SubjectFour from '@/pages/index/SubjectFour'
-import SubjectTwo from '@/pages/index/skill/SubjectTwo'
+import SkillTwo from '@/pages/index/skill/SubjectTwo'
+import SkillOne from '@/pages/index/skill/SubjectOne'
+import SkillThree from '@/pages/index/skill/SubjectThree'
+import SkillFour from '@/pages/index/skill/SubjectFour'
 import SkillExtance from '@/pages/index/skill/SkillExtance'
+
 import trys from '@/pages/try/trys'
 
 Vue.use(Router)
@@ -42,7 +46,25 @@ export default new Router({
 
         {
           path: '/home/SkillExam',
-          component: SkillExtance
+          component: SkillExtance,
+          children:[
+            {
+              path: '/skill/one',
+              component: SkillOne
+            },
+            {
+              path: '/skill/two',
+              component: SkillTwo
+            },
+            {
+              path: '/skill/three',
+              component: SkillThree
+            },
+            {
+              path: '/skill/four',
+              component: SkillFour
+            },
+          ]
         }
       ]
     },

@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div class="body">
       <tabbar>
           <tabbar-item>
               <span slot="label">
@@ -10,7 +10,8 @@
           </tabbar-item>
             <tabbar-item >
               <span slot="label">
-                  <router-link :to="'/home/SkillExam'">
+                
+                  <router-link :to="'/skill/two'">
                         技巧
                   </router-link>
               </span>
@@ -45,5 +46,11 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.body{
+  position:fixed;
+  bottom:0;
+  width:100%;
+  margin-top:50px
+}
 
 </style>

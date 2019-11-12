@@ -69,15 +69,20 @@
     <div>
          <group>
              <cell title="我的答题统计" is-link>
-                <img slot="icon" width="20" style="display:block;margin:0  15px 0 5px;" cell-font-size='10px' src="../../image/pratice.png">
+                <img slot="icon" width="20" style="display:block;margin:0  15px 0 8px;" cell-font-size='10px' src="../../image/pratice.png">
+            </cell>
+             <cell title="新手教程" is-link>
+                <img slot="icon" width="20" style="display:block;margin:0  15px 0 8px;" cell-font-size='10px' src="../../image/newsoul.png">
             </cell>
          </group>
     </div>
+    <Loading :hidden="loading"></Loading>
   </div>
 </template><script>
 import { Tab, TabItem, Group, Cell } from "vux";
 import { Badge } from "vux";
 import roundprogress from "@/components/tools/roundprogress";
+import Loading from "@/components/Loading/loading";
 import StandardTop from "@/components/Tabbar/StandardTop";
 
 export default {
@@ -97,16 +102,20 @@ export default {
       timeFunction: "cubic-bezier(0.99, 0.01, 0.22, 0.94)",
       intervalTimer: null, // 持续模式，循环计时器
       currentTime: 0, // 当前时间
-      durationTime: 60 // 持续模式总时长
+      durationTime: 60, // 持续模式总时长,
+      loading: true
     };
   },
+  mounted(){
 
+  },
   components: {
     Tab,
     TabItem,
     Badge,
     standardtop: StandardTop,
     roundprogress: roundprogress,
+    Loading: Loading,
     Group,
     Cell
   }
@@ -115,15 +124,15 @@ export default {
 .body {
   font-size: 16px;
 
-  .content{
-     background: #fff;
+  .content {
+    background: #fff;
   }
   .items {
     padding: 0.8rem 1rem;
-   
+
     display: flex;
     flex-wrap: nowrap;
-   
+
     img {
       width: 30px;
       height: 30px;
@@ -149,10 +158,10 @@ export default {
     }
   }
 
-  .tips{
-    padding:0.2rem 0 ;
-    color:#B599B5;
-    font-size:12px;
+  .tips {
+    padding: 0.2rem 0;
+    color: #b599b5;
+    font-size: 12px;
   }
 
   .vux-label {
@@ -160,7 +169,7 @@ export default {
   }
 }
 
-.textcenter{
-  text-align:center;
+.textcenter {
+  text-align: center;
 }
 </style>
