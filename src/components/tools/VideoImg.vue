@@ -1,16 +1,24 @@
 <template>
   <div class="body">
-      <div> <img src="../../image/xueche/daoche.jpg" class="img"/></div>
+      <div> <img :src=img class="img"/></div>
       <div class="play">
           <img src="../../image/xueche/videoplay.png" />
       </div>
-      <div class="name">倒车入库</div>
+      <div class="name">{{name}}</div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "VideoImg"
+  name: "VideoImg",
+  props:{
+    img:{
+        type:String
+    },
+    name:{
+        type:String
+    }
+  }
 };
 </script>
 
@@ -24,16 +32,16 @@ export default {
 }
 
 .img{
-    padding:10px;
+    padding:5px 10px;
     width:6rem;
-    height:4rem;
+  
 
 }
 .play{
    
        position:absolute;
    left:3rem;
-   top:2rem;;
+   top:1.2rem;;
     
    
     img{
@@ -46,5 +54,6 @@ export default {
 }
 .name{
     text-align:center;
+    font-size: 12px;
 }
 </style>
