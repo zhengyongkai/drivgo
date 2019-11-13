@@ -67,7 +67,7 @@ export default {
   font-size: 16px;
   margin: 0;
   padding: 0;
-  margin-bottom: 80px;
+  margin-bottom: 60px;
 }
 
 .tops{

@@ -17,7 +17,18 @@
               </span>
           </tabbar-item>
            <tabbar-item >
-              <span slot="label">我的</span>
+              <span slot="label">
+                 <router-link :to="'/home/my'">
+                        社交
+                  </router-link>
+              </span>
+          </tabbar-item>
+           <tabbar-item >
+              <span slot="label">
+                 <router-link :to="'/home/my'">
+                        我的
+                  </router-link>
+              </span>
           </tabbar-item>
       </tabbar>
   </div>

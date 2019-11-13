@@ -84,7 +84,7 @@
     font-size: 16px;
     margin: 0;
     padding: 0;
-    margin-bottom: 80px;
+    margin-bottom: 60px;
   }
 
   .top {
@@ -108,7 +108,7 @@
     margin-top: 16px;
     background: #fff;
     padding: 12px 8px;
-    
+
 
   }
 

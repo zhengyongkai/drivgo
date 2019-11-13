@@ -12,6 +12,7 @@ import SkillOne from '@/pages/index/skill/SubjectOne'
 import SkillThree from '@/pages/index/skill/SubjectThree'
 import SkillFour from '@/pages/index/skill/SubjectFour'
 import SkillExtance from '@/pages/index/skill/SkillExtance'
+import My from '@/pages/index/my/My'
 
 import trys from '@/pages/try/trys'
 
@@ -65,6 +66,9 @@ export default new Router({
               component: SkillFour
             },
           ]
+        },{
+           path: '/home/my',
+           component: My
         }
       ]
     },
