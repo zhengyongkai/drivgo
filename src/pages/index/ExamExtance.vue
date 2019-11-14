@@ -6,7 +6,7 @@
 
             </tab-item>
             <tab-item >
-                <router-link to="/four">科目二</router-link>
+                <router-link to="/four">科目四</router-link>
             </tab-item>
         </tab>
         <div>

@@ -2,22 +2,11 @@
   <div class="body">
     <!-- <div>这是头部</div> -->
     <div>
-      <selects :currentInfo="item" :option="array" :select="select"></selects>
+        <standardtop :bar=true></standardtop>
     </div>
-    <div class="explain">
-      <div>
-        <b>标准答案：</b>
-        {{array[item.ta].index}}
-      </div>
-      <div>
-        <b>解析：</b>
-        <span v-html="item.bestanswer"></span>
-      </div>
+    <div class="content">
+        <div class="tab">判断</div>
     </div>
-    <div>
-        <bottom @click="clickHandle" class="bottom"></bottom>
-    </div>
-    <loadings v-if="loadding"></loadings>
   </div>
 </template>
 
@@ -27,6 +16,7 @@ import {  Alert, Badge } from "vux";
 import Select from "../../components/Select/Select";
 import loading from '../../components/Loading/loading'
 import Bottom from '../../components/Tabbar/ExamBottom'
+import StandardTop from '../../components/Tabbar/StandardTop'
 export default {
   name: "RandomExam",
   data() {
@@ -41,7 +31,8 @@ export default {
     Selects: Select,
     Badge,
     Bottom,
-    loadings:loading
+    loadings:loading,
+    "standardtop":StandardTop
   },
   created() {
     this.init();
@@ -139,25 +130,20 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-body,
+.body,
 html {
-  background: #fff ;
+   
+    font-size: 16px;
+
+    .content{
+      padding: 12px 8px;
+
+      .tab{
+        width: 60px;
+        border: 1px solid red;
+        text-align: center;
+      }
+    }
 }
 
-.explain {
-  background: #fff;
-  font-size: 18px;
-  padding: 1rem 1rem;
-  margin-top: 1rem;
-  div {
-    margin-bottom: 0.3rem;
-  }
-}
-.bottom{
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  margin-top: 20px
-}
 </style>

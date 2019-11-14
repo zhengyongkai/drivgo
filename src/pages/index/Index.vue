@@ -4,7 +4,7 @@
           <standardtop></standardtop>
        </div>
         <div>
-          <router-view></router-view>
+          <router-view v-transition></router-view>
         </div>
         <div>
             <standardbottom></standardbottom>
