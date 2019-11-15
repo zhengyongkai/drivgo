@@ -12,8 +12,8 @@
     <div class="answer">
       <div v-for="(o, index) in option" class="item"  :key="index">
       <div v-show="1==2">{{o.index}}</div>
-      <img src="../../image/correct.png" alt="" >
-       <img src="../../image/wrong.png" alt="" >
+      <!-- <img src="../../image/correct.png" alt="" >
+       <img src="../../image/wrong.png" alt="" > -->
       <!-- <img src="../../image/wrong.png" alt="" > --> 
       <div>{{o.label}}</div>
     </div>

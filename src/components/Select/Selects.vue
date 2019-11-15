@@ -12,7 +12,7 @@
     <img v-if="currentInfo.sinaimg" src="../../image/logo.png" class="image">
     <div class="answer">
       <div v-for="(o, index) in option" class="item"  :key="index">
-      <div v-show="1==2">{{o.index}}</div>
+      <div v-show="2==2">{{o.index}}</div>
       <img src="../../image/correct.png" alt="" >
        <img src="../../image/wrong.png" alt="" >
       <!-- <img src="../../image/wrong.png" alt="" > --> 

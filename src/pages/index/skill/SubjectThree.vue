@@ -128,12 +128,14 @@ export default {
     padding: 12px 8px;
     background: #fff;
      .videoimg {
+    
     display: flex;
-    width: 50%;
+    width: 100%;
    
 
     .img {
-      width: 100%;
+      width: 50%;
+      text-align: center;
 
     }
   }

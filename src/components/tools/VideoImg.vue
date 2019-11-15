@@ -36,12 +36,16 @@ export default {
     width:6rem;
   
 
+
 }
 .play{
    
-       position:absolute;
-   left:3rem;
-   top:1.2rem;;
+     position:absolute;
+       width: 100%;
+   left:0rem;
+   top:25%;;
+    
+  
     
    
     img{

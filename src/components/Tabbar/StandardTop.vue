@@ -3,14 +3,7 @@
     <div class="title" :hidden=bar>
         答题酷  
     </div>
-    <div class="bar"  :hidden=!bar>
-        <div>
-            答题模式
-        </div>
-        <div>
-            背题模式
-        </div>
-    </div>
+   
   </div>
 </template>
 
@@ -41,9 +34,9 @@ export default {
     .body{
       height: 2rem;
       text-align: center;
+      line-height: 2rem;
     
-      background: #1BD0AD;
-     
+      background: #1DD1AA;
 
       .title{
         font-size: 16px;

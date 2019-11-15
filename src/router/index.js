@@ -26,7 +26,7 @@ export default new Router({
       component: RandomExam
     },
     {
-      path: '/home',
+      path: '/',
       name: 'Index',
       component: Index,
       children: [

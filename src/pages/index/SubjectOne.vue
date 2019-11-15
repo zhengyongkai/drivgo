@@ -22,7 +22,7 @@
             :delay="delay"
             :timeFunction="timeFunction"
             :backgroundColor="backgroundColor"
-            :fill="'#1BD0AD'"
+            :fill="'#1DD1AA'"
             :num="'5/499'"
           ></roundprogress>
         </div>
@@ -140,13 +140,18 @@ export default {
     }
     .item-round {
       flex: 30%;
+      width: 2rem;
+     
     }
     .type {
+      
       padding: 10% 0;
     }
     .item {
       flex: 20%;
       text-align: center;
+
+    
 
       img {
         width: 30px;
