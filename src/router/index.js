@@ -13,6 +13,7 @@ import SkillThree from '@/pages/index/skill/SubjectThree'
 import SkillFour from '@/pages/index/skill/SubjectFour'
 import SkillExtance from '@/pages/index/skill/SkillExtance'
 import My from '@/pages/index/my/My'
+import MajorExtance from '@/pages/index/majorpratice/MajorExtance'
 
 import trys from '@/pages/try/trys'
 
@@ -82,6 +83,10 @@ export default new Router({
       path: '/trys',
       name: 'try',
       component: trys
+    },{
+      path: '/major/extance',
+      name: 'MajorExtance',
+      component: MajorExtance
     }
   ]
 })

@@ -28,14 +28,14 @@
         </div>
         <div class="item type">
           <img src="../../image/8.png" />
-          <div class="text">我的错题</div>
+          <div class="text"><router-link to="/exam" >我的错题</router-link></div>
         </div>
       </div>
 
       <div class="items">
         <div class="item type">
           <img src="../../image/5.png" />
-          <div class="text">章节练习</div>
+          <div class="text">专项练习</div>
         </div>
         <div class="item item-round">
           <roundprogress
