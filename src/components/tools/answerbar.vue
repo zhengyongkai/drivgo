@@ -1,10 +1,11 @@
 <template>
-  <div class="body">
 
+  <transition :name="`popup-animate-bottom-enter`">
     <div>
-      <div class="mask">
-        <div class="top">
-          <div class="item"> <img src="../../image/feiqi/right.png">
+      <a href="#" class="body" v-if="isShow" @click="popup"></a>
+      <div ref="msk" :class="isShow==false?'msk':'msk popup'">
+        <div @click="popup" style="height:2rem" class="top">
+           <div class="item"> <img src="../../image/feiqi/right.png">
             <div style="color:#1DD1AA">0</div>
           </div>
           <div class="item"> <img src="../../image/feiqi/wrong.png">
@@ -15,18 +16,18 @@
           </div>
           <div style="margin-left: auto;">清空记录</div>
         </div>
-        <div class="content" >
+        <div>
+            <div class="content"  style="overflow-y: scroll;">
             <div :class="n==1?'round error':(n <= 2&&n!=1 ? 'round right' : (n==3)?'round selectNow':'round')" v-for=" n in 50" >
                 {{n}}
             </div>
            
         </div>
+        </div>
       </div>
     </div>
+  </transition>
 
-
-
-  </div>
 </template>
 
 <script>
@@ -35,64 +36,87 @@
     Popup
   } from 'vux'
   export default {
-    name: "VideoImg",
+    name: "answerbar",
     data() {
       return {
-        isShow: true
+        isShow: false
       }
     },
     props: {
 
     },
+
     components: {
       Popup,
       exambottombar: ExamBottomBar,
     },
     methods: {
+      popup() {
+        this.isShow = !this.isShow
 
+        if (!this.isShow) {
+          console.log("ss")
+          document.documentElement.style.overflow = "";
+        } else {
+          document.documentElement.style.overflow = "hidden"
+        }
+      }
     }
+
   };
 
 </script>
 
 <style lang="scss" scoped>
-  .body {
-
+  .msk {
+    z-index: 501;
     position: fixed;
-    top: 0;
-    left: 0;
+    bottom: 0;
+    height: 2rem;
+    background: rgba(246, 246, 246, 1);
     width: 100%;
+    left: 0;
+    right: 0;
+    transition: all 0.8s;
+     
+  }
+
+  .body {
+    display: block;
+    z-index: 500;
+    position: fixed;
     bottom: 0;
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
-    opacity: 1;
-    z-index: 500;
-    transition: opacity 400ms;
-
-  }
-
-  .mask {
-    position: fixed;
-
-    left: 0;
     width: 100%;
-    bottom: 0;
-    height: 80%;
-    background: white;
-    opacity: 1;
-    z-index: 500;
-    transition: opacity 400ms;
+    left: 0;
+    right: 0;
+    transition: all 0.8s;
   }
 
-  .top {
+  .popup {
+    height: 80%;
+    bottom: 0;
+    transition: all 0.8s;
+     overflow: hidden;
+  }
+
+  .popup-animate-bottom-enter,
+  .popup-animate-bottom-leave-active {
+    transform: translate3d(0, 100%, 0);
+  }
+
+  .overflow {
+    overflow: hidden;
+  }
+   .top {
     display: flex;
     padding: 0.5rem 0.5rem;
     height: 2rem;
     font-size: 12px;
-    align-items: center;
-
-    // background:red;
-    .item {
+    align-items: center;}
+  
+  .item {
       width: 3.6rem;
       display: flex;
      
@@ -113,7 +137,6 @@
 
     }
 
-  }
 
   .content {
   padding: 0.5rem 0.5rem;

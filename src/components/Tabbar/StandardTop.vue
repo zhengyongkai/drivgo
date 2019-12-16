@@ -1,5 +1,5 @@
 <template>
-  <div class="body">
+  <div class="body" >
     <div class="title" :hidden=bar>
         答题酷  
     </div>
@@ -36,9 +36,11 @@ export default {
       text-align: center;
       line-height: 2rem;
     
+     
       background: #1DD1AA;
 
       .title{
+         z-index:999;
         font-size: 16px;
         color: white;
 
