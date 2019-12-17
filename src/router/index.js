@@ -14,6 +14,7 @@ import SkillFour from '@/pages/index/skill/SubjectFour'
 import SkillExtance from '@/pages/index/skill/SkillExtance'
 import My from '@/pages/index/my/My'
 import MajorExtance from '@/pages/index/majorpratice/MajorExtance'
+import PageChange  from '@/pages/examType/PageChange';
 
 import trys from '@/pages/try/trys'
 
@@ -25,6 +26,11 @@ export default new Router({
       path: '/exam',
       name: 'RandomExam',
       component: RandomExam
+    },
+    {
+      path: '/exampc',
+      name: 'PageChange',
+      component: PageChange
     },
     {
       path: '/',

@@ -5,7 +5,7 @@
       <a href="#" class="body" v-if="isShow" @click="popup"></a>
       <div ref="msk" :class="isShow==false?'msk':'msk popup'">
         <div @click="popup" style="height:2rem" class="top">
-           <div class="item"> <img src="../../image/feiqi/right.png">
+          <div class="item"> <img src="../../image/feiqi/right.png">
             <div style="color:#1DD1AA">0</div>
           </div>
           <div class="item"> <img src="../../image/feiqi/wrong.png">
@@ -16,13 +16,15 @@
           </div>
           <div style="margin-left: auto;">清空记录</div>
         </div>
-        <div>
-            <div class="content"  style="overflow-y: scroll;">
-            <div :class="n==1?'round error':(n <= 2&&n!=1 ? 'round right' : (n==3)?'round selectNow':'round')" v-for=" n in 50" >
-                {{n}}
+        <div style="   overflow: hidden; height:100%;  " ref="bscroll">
+
+          <div class="content bscroll-container" style="overflow-y: scroll;" ref="bscroll">
+            <div :class="n==1?'round error':(n <= 2&&n!=1 ? 'round right' : (n==3)?'round selectNow':'round')"
+              v-for=" n in 100" @click="change(n)">
+              {{n}}
             </div>
-           
-        </div>
+          </div>
+          <!-- <div class="bscroll-container">dasddddddddddddddddddddddddddddddddddddddddddddd</div> -->
         </div>
       </div>
     </div>
@@ -32,8 +34,10 @@
 
 <script>
   import ExamBottomBar from "../../components/Tabbar/ExamBottomBar";
+  import BScroll from 'better-scroll';
   import {
-    Popup
+    Popup,
+    Scroller
   } from 'vux'
   export default {
     name: "answerbar",
@@ -49,13 +53,29 @@
     components: {
       Popup,
       exambottombar: ExamBottomBar,
+      Scroller
+    },
+    mounted() {
+      this.$nextTick(() => {
+
+        let bscrollDom = this.$refs.bscroll;
+
+        this.aBScroll = new BScroll(bscrollDom, {})
+
+      })
+
+
     },
     methods: {
+      change(e) {
+        console.log(e)
+
+      },
       popup() {
         this.isShow = !this.isShow
 
         if (!this.isShow) {
-          console.log("ss")
+         
           document.documentElement.style.overflow = "";
         } else {
           document.documentElement.style.overflow = "hidden"
@@ -73,12 +93,12 @@
     position: fixed;
     bottom: 0;
     height: 2rem;
-    background: rgba(246, 246, 246, 1);
+    background: white;
     width: 100%;
     left: 0;
     right: 0;
     transition: all 0.8s;
-     
+
   }
 
   .body {
@@ -98,7 +118,7 @@
     height: 80%;
     bottom: 0;
     transition: all 0.8s;
-     overflow: hidden;
+    overflow: hidden;
   }
 
   .popup-animate-bottom-enter,
@@ -109,68 +129,77 @@
   .overflow {
     overflow: hidden;
   }
-   .top {
+
+  .top {
     display: flex;
     padding: 0.5rem 0.5rem;
     height: 2rem;
     font-size: 12px;
-    align-items: center;}
-  
+    align-items: center;
+  }
+
   .item {
-      width: 3.6rem;
-      display: flex;
-     
+    width: 3.6rem;
+    display: flex;
 
 
 
-      align-items: center;
 
-      :first-child {
-        margin-right: 4px;
-      }
+    align-items: center;
 
+    :first-child {
+      margin-right: 4px;
     }
 
-    img {
-      width: 24px;
-      height: 24px;
+  }
 
-    }
+  img {
+    width: 18px;
+    height: 18px;
+
+  }
 
 
   .content {
-  padding: 0.5rem 0.5rem;
-  display: flex;
-  flex-wrap: wrap;
-  .round{
-    border: 1px solid #E5E5E5;
-    align-items:center;
-    line-height: 2.3rem;
-    font-size: 16px;
-     margin:0 0.09rem 10px 0.09rem;
-    width: 2.3rem;
-    height: 2.3rem;
-    border-radius: 50%;
-    text-align: center;
-    justify-content: space-around;
 
-  }
+    padding: 0.5rem 0.5rem 2rem 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+
+
+    .round {
+      border: 1px solid #E5E5E5;
+
+      align-items: center;
+      line-height: 2.3rem;
+      font-size: 12px;
+      margin: 0 0.09rem 10px 0.09rem;
+      width: 2.3rem;
+      height: 2.3rem;
+      border-radius: 50%;
+      text-align: center;
+      justify-content: space-around;
+
+    }
   }
 
-  .error{
-    border:1px solid #EF98A8 !important;
-    background: #FEDCDB !important;;
-    color:#EF98A8;
+  .error {
+    border: 1px solid #EF98A8 !important;
+    background: #FEDCDB !important;
+    ;
+    color: #EF98A8;
   }
-  .right{
-     border:1px solid #B6E2AF !important;
-    background:  #D9F8D9 !important;
-    color:#92E595;
+
+  .right {
+    border: 1px solid #B6E2AF !important;
+    background: #D9F8D9 !important;
+    color: #92E595;
   }
-  .selectNow{
-     border: 1px solid   #11DBA9 !important;
-    background:  white;
-    color:  #11DBA9;
+
+  .selectNow {
+    border: 1px solid #11DBA9 !important;
+    background: white;
+    color: #11DBA9;
   }
 
 </style>

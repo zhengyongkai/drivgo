@@ -24,18 +24,20 @@
             :backgroundColor="backgroundColor"
             :fill="'#1DD1AA'"
             :num="'5/499'"
-          ></roundprogress>
+          >
+    
+          </roundprogress> 
         </div>
         <div class="item type">
           <img src="../../image/8.png" />
-          <div class="text"><router-link to="/exam" >我的错题</router-link></div>
+          <div class="text">错题·收藏</div>
         </div>
       </div>
 
       <div class="items">
         <div class="item type">
           <img src="../../image/5.png" />
-          <div class="text">专项练习</div>
+          <div class="text"><router-link to="/exam" >专项练习</router-link></div>
         </div>
         <div class="item item-round">
           <roundprogress
@@ -146,6 +148,8 @@ export default {
     .type {
       
       padding: 10% 0;
+
+      
     }
     .item {
       flex: 20%;
