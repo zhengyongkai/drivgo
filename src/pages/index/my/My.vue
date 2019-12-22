@@ -1,6 +1,6 @@
 <template>
-  <div class="body">
-    <div class="top">
+  <div class="body" style="overflow:hidden;position:absolute;top:2rem;   ">
+    <div class="top" >
       <div class="img">
         <img src="../../../image/my.jpg" />
       </div>

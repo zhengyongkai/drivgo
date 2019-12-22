@@ -1,6 +1,7 @@
 <template>
   <div class="body">
-       <tab custom-bar-width="50px">
+    <div class="tabber">
+       <tab custom-bar-width="50px" >
          
              <tab-item >
                 <router-link to="/skill/two">科目二</router-link>
@@ -12,13 +13,17 @@
             </tab-item>
            
         </tab>
-        <div>
-          <router-view ></router-view>
+    </div>
+         <div ref="bscroll" class="bscroll main" style="overflow:hidden;position:absolute;top:4rem; " >
+           <div  class="bscroll-container" >
+             <router-view ></router-view>
+           </div>
         </div>
   </div>
 </template>
 
 <script>
+   import BScroll from 'better-scroll';
 import { Tab, TabItem } from 'vux'
 export default {
   name: "SubjectTwo",
@@ -27,6 +32,18 @@ export default {
 
     }
   },
+   mounted(){
+       this.$nextTick(() => {
+
+        let bscrollDom = this.$refs.bscroll;
+
+        this.aBScroll = new BScroll(bscrollDom, {
+          click:true,
+            mouseWheel: true,//开启鼠标滚轮
+        })
+
+      })
+    },
   components:{
     Tab,
     TabItem

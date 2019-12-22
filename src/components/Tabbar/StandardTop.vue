@@ -35,8 +35,10 @@ export default {
       height: 2rem;
       text-align: center;
       line-height: 2rem;
-    
-     
+      position:fixed;
+    z-index:500;
+      width:100%;
+     top: 0; left: 0; right: 0;
       background: #1DD1AA;
 
       .title{

@@ -1,10 +1,10 @@
 <template>
 
-  <transition :name="`popup-animate-bottom-enter`">
+  <transition >
     <div>
-      <a href="#" class="body" v-if="isShow" @click="popup"></a>
+      <a href="javascript:void(0);" class="body" v-if="isShow" @click="popup"></a>
       <div ref="msk" :class="isShow==false?'msk':'msk popup'">
-        <div @click="popup" style="height:2rem" class="top">
+        <div @click="popup"  class="top" >
           <div class="item"> <img src="../../image/feiqi/right.png">
             <div style="color:#1DD1AA">0</div>
           </div>
@@ -14,9 +14,9 @@
           <div class="item"><img src="../../image/feiqi/num.png">
             <div>0 / 4937</div>
           </div>
-          <div style="margin-left: auto;">清空记录</div>
+          <div style="margin-left: auto;float:right;">清空记录</div>
         </div>
-        <div style="   overflow: hidden; height:100%;  " ref="bscroll">
+        <div class="bscroll main" ref="bscroll" style="   overflow: hidden; height:100%; top:2rem;   " >
 
           <div class="content bscroll-container" style="overflow-y: scroll;" ref="bscroll">
             <div :class="n==1?'round error':(n <= 2&&n!=1 ? 'round right' : (n==3)?'round selectNow':'round')"
@@ -60,7 +60,10 @@
 
         let bscrollDom = this.$refs.bscroll;
 
-        this.aBScroll = new BScroll(bscrollDom, {})
+        this.aBScroll = new BScroll(bscrollDom, {
+           click:true,
+           mouseWheel: true,//开启鼠标滚轮
+        })
 
       })
 
@@ -121,21 +124,19 @@
     overflow: hidden;
   }
 
-  .popup-animate-bottom-enter,
-  .popup-animate-bottom-leave-active {
-    transform: translate3d(0, 100%, 0);
-  }
 
   .overflow {
     overflow: hidden;
   }
 
   .top {
+    position:fixed;
     display: flex;
     padding: 0.5rem 0.5rem;
     height: 2rem;
     font-size: 12px;
     align-items: center;
+    width:100%;
   }
 
   .item {
@@ -165,6 +166,9 @@
     padding: 0.5rem 0.5rem 2rem 0.5rem;
     display: flex;
     flex-wrap: wrap;
+   -webkit-backface-visibility: hidden;    
+  -webkit-transform: translate3d(0,0,0);
+
 
 
     .round {
@@ -200,6 +204,12 @@
     border: 1px solid #11DBA9 !important;
     background: white;
     color: #11DBA9;
+  }
+
+  .bscroll{
+    
+    
+ 
   }
 
 </style>

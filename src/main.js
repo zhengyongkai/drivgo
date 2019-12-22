@@ -10,7 +10,8 @@ Vue.prototype.$axios = axios;
 Vue.config.productionTip = false
 import VueTouch from 'vue-touch'
 import vueg from 'vueg'
-
+import "./style/font.css";
+import './assets/iconfront/iconfont.css';
 Vue.use(vueg, router) 
 Vue.use(VueTouch, {
   name: 'v-touch'
