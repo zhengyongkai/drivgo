@@ -6,25 +6,25 @@
     <div class="main bscroll dr-content" ref="bscroll">
       <div class="dr-block-top">
         <div class="dr-top-item">
-          <div class="top-item-text">今日错题 ></div>
-          <div class="top-item-num">0</div>
+          <div class="top-item-text">今日收藏 ></div>
+          <div class="top-item-num">14</div>
         </div>
         <div class="dr-top-item">
-          <div class="top-item-text">全部错题 ></div>
-          <div class="top-item-num">10</div>
+          <div class="top-item-text">全部收藏 ></div>
+          <div class="top-item-num">1021</div>
         </div>
       </div>
       <div class="dr-block-content">
         <div class="dr-content-top">
-          <div>错题详情</div>
+          <div>收藏详情</div>
           <div>
             <i class="iconfront icon-trash"></i>
           </div>
         </div>
       </div>
       <div class="dr-content-title">
-        <div class="dr-title-title">易错题</div>
-        <div class="dr-title-desc">高分易错题,提分比做</div>
+        <div class="dr-title-title">收藏最多</div>
+        <div class="dr-title-desc">最多收藏题，考前必看</div>
         <div class="dr-title-link">马上去做 ></div>
       </div>
       <div class="dr-content-item">
@@ -32,14 +32,14 @@
           <div class="dr-item-order">1</div>
           <div class="dr-item-title">道路交通安全法律、法规和规章</div>
           <div class="dr-item-num">
-            <span>0</span>题 >
+            <span>13</span>题 >
           </div>
         </div>
         <div class="dr-item">
           <div class="dr-item-order">2</div>
           <div class="dr-item-title">交通信号</div>
           <div class="dr-item-num">
-            <span>0</span>题 >
+            <span>1020</span>题 >
           </div>
         </div>
         <div class="dr-item">
@@ -153,8 +153,8 @@ export default {
 
     .dr-title-title {
       flex: 1;
-      width: 60px;
-      color: #f35626;
+      width: 100px;
+      color: #FCBF1B;
       font-weight: bold;
       font-style: oblique;
       background-image: -webkit-linear-gradient(5deg, #f7135d, #ffa900);
@@ -166,7 +166,7 @@ export default {
     }
 
     .dr-title-desc {
-      flex: 4;
+      flex: 3;
       font-size: 12px;
     }
 
@@ -185,7 +185,7 @@ export default {
       .dr-item-order {
         height: 0.8rem;
         line-height: 0.8rem;
-        background: #FF5005;
+        background: #FCBF1B;
         width: 0.8rem;
         text-align: center;
         border-radius: 50%;

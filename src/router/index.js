@@ -16,6 +16,7 @@ import My from '@/pages/index/my/My'
 import MajorExtance from '@/pages/index/majorpratice/MajorExtance'
 import PageChange  from '@/pages/examType/PageChange';
 import ErrorCollect from '@/pages/index/errorcollection/index';
+import Collection from '@/pages/index/errorcollection/collection';
 import trys from '@/pages/try/trys'
 
 Vue.use(Router)
@@ -33,9 +34,14 @@ export default new Router({
       component: PageChange
     },
     {
-      path: '/errorc',
+      path: '/error',
       name:"errorcollection",
       component:ErrorCollect
+    },
+    {
+      path: '/collection',
+      name:"collection",
+      component:Collection
     },
     {
       path: '/',
