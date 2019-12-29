@@ -1,150 +1,86 @@
 <template>
-  <div class="body">
-    <svg
-      style="transform: rotate(-90deg);"
-      :width="width"
-      :height="width"
-      xmlns="http://www.w3.org/2000/svg"
+  <div >
+    <van-circle
+      layer-color="#ebedf0"
+      v-model="currentRate"
+      :rate="rate"
+      :color="gradientColor"
+    
+      :fill="fill"
     >
-      <circle
-        :r="(width-radius)/2"
-        :cy="width/2"
-        :cx="width/2"
-        :stroke-width="radius"
-        :stroke="backgroundColor"
-        fill="none"
-      />
-      <circle
-        ref="$bar"
-        :r="(width-radius)/2"
-        :cy="width/2"
-        :cx="width/2"
-        :stroke="barColor"
-        :stroke-width="radius"
-        :stroke-linecap="isRound ? 'round' : 'square'"
-        :stroke-dasharray="(width-radius)*3.14"
-        :stroke-dashoffset="isAnimation ? (width-radius) * 3.14 : (width - radius) * 3.14 * (100 - progress) / 100"
-        :fill="fill"
-      />
-    </svg>
-    <div class="text">
-      {{text}}
-      <div class="num">{{num}}</div>
-    </div>
+     <slot name="default" >
+       <div class="van-text">
+          <div class="title">{{text}}</div>
+          <div class="rate">0 / 222</div>
+       </div>
+     </slot>
+    </van-circle>
+    
   </div>
 </template>
 <style lang="scss" scoped>
-.body {
-  position: relative;
+  van-circle{
+     }
+.van-circle{
+  font-size: 32px !important;
 }
-.text {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  margin-left: -30px;
-  top: 50%;
-  margin-top: -25px;
-  color: #fff;
-  cursor: pointer;
-
-  .num {
-    font-size: 10px;
-    margin-top: 5px;
-    color: #fff;
-  }
+.van-text{
+  width: 100%;
+      position: absolute;
+  top:50%;
+  color: #323233;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 18px;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    .title{
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+    .rate{
+      font-size: 12px;
+    }
 }
 </style>
 <script>
+import { Circle } from 'vant';
 export default {
   props: {
-    width: [Number, String], // 圆的大小
-    radius: [Number, String], // 进度条厚度
-    num:{
-        type: String,
-        default: ""
-    },
-    progress: {
-      // 是否是动画效果
-      type: String,
-      default: ""
-    },
-    barColor: String, // 进度条颜色
-    backgroundColor: String, // 背景颜色
-    isAnimation: {
-      // 是否是动画效果
-      type: Boolean,
-      default: true
-    },
-    isRound: {
-      // 是否是圆形画笔
-      type: Boolean,
-      default: true
-    },
-    id: {
-      // 组件的id，多组件共存时使用
-      type: [String, Number],
-      default: 1
-    },
-    duration: {
-      // 整个动画时长
-      type: [String, Number],
-      default: 1000
-    },
-    delay: {
-      // 延迟多久执行
-      type: [String, Number],
-      default: 200
-    },
-    timeFunction: {
-      // 动画缓动函数
-      type: String,
-      default: "cubic-bezier(0.99, 0.01, 0.22, 0.94)"
-    },
-    text: String,
-    fill: {
-      // 动画缓动函数
-      type: String,
-      default: ""
-    }
+      text:{
+        type:String,
+        
+      },
+      rate:{
+        type:Number
+      },
+      fill:{
+        type:String,
+        default:"#fff"
+      },
+      gradientColor:{
+        type:Object
+      }
+   
   },
   data() {
     return {
-      idStr: `circle_progress_keyframes_${this.id}`
+      idStr: `circle_progress_keyframes_${this.id}`,
+      currentRate: 0,
+      // gradientColor: {
+      //   '0%': '#3fecff',
+      //   '100%': '#6149f6'
+      // }
     };
   },
+  components:{
+    "van-circle":Circle
+  },
   beforeDestroy() {
-    // 清除旧组件的样式标签
-    document.getElementById(this.idStr) &&
-      document.getElementById(this.idStr).remove();
+   
   },
   mounted() {
-    if (this.isAnimation) {
-      // 重复定义判断
-      if (document.getElementById(this.idStr)) {
-        console.warn("vue-circle-progress should not have same id style");
-        document.getElementById(this.idStr).remove();
-      }
-      // 生成动画样式文件
-      let style = document.createElement("style");
-      style.id = this.idStr;
-      style.type = "text/css";
-      style.innerHTML = `
-      @keyframes circle_progress_keyframes_name_${this.id} {
-      from {stroke-dashoffset: ${(this.width - this.radius) * 3.14}px;}
-      to {stroke-dashoffset: ${((this.width - this.radius) *
-        3.14 *
-        (100 - this.progress)) /
-        100}px;}}
-      .circle_progress_bar${
-        this.id
-      } {animation: circle_progress_keyframes_name_${this.id} ${
-        this.duration
-      }ms ${this.delay}ms ${this.timeFunction} forwards;}`;
-      // 添加新样式文件
-      document.getElementsByTagName("head")[0].appendChild(style);
-      // 往svg元素中添加动画class
-      this.$refs.$bar.classList.add(`circle_progress_bar${this.id}`);
-    }
+    
   }
 };
 </script>

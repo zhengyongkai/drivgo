@@ -7,26 +7,8 @@
           <div class="text">随机练习</div>
         </div>
         <div class="item item-round">
-          <roundprogress
-            ref="$circle"
-            class="progresses"
-            key="animation-models"
-            :isAnimation="true"
-            :isRound="true"
-            :width="width"
-            :text="text"
-            :progress="'100'"
-            :radius="radius"
-            :barColor="barColor"
-            :duration="duration"
-            :delay="delay"
-            :timeFunction="timeFunction"
-            :backgroundColor="backgroundColor"
-            :fill="'#1DD1AA'"
-            :num="'5/499'"
-          >
-    
-          </roundprogress> 
+          <roundprogress :text="'顺序答题'" :rate="70" :gradientColor="sxdt"/>
+         
         </div>
         <div class="item type">
           <img src="../../image/8.png" />
@@ -41,23 +23,10 @@
         </div>
         <div class="item item-round">
           <roundprogress
-            ref="$circle"
-            class="progress"
-            key="animation-model"
-            :isAnimation="true"
-            :isRound="true"
-            :width="width"
-            :text="'仿真考试'"
-            :radius="radius"
-            :progress="'9'"
-            :barColor="barColor"
-            :duration="duration"
-            :delay="delay"
-            :timeFunction="timeFunction"
-            :backgroundColor="backgroundColor"
-            :fill="'#4EB1FB'"
-            :num="'100%仿真'"
-          ></roundprogress>
+           :text="'模拟考试'"
+           :rate="20"
+           :gradientColor="mndt"
+          />
         </div>
         <div class="item type">
           <img src="../../image/7.png" />
@@ -99,13 +68,21 @@ export default {
       duration: 1000,
       delay: 20,
       text: "顺序练习",
-      barColor: "#808080",
+      
       backgroundColor: "white",
       timeFunction: "cubic-bezier(0.99, 0.01, 0.22, 0.94)",
       intervalTimer: null, // 持续模式，循环计时器
       currentTime: 0, // 当前时间
       durationTime: 60, // 持续模式总时长,
-      loading: true
+      loading: true,
+      sxdt:{
+         '0%': '#f6d365',
+        '100%': '#fda085'
+      },
+      mndt:{
+        '0%': '#3fecff',
+        '100%': '#6149f6'
+      }
     };
   },
   mounted(){
@@ -141,6 +118,7 @@ export default {
       border-radius: 50%;
     }
     .item-round {
+      background: #fff;
       flex: 30%;
       width: 2rem;
      
