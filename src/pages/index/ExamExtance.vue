@@ -1,31 +1,27 @@
 <template>
   <div class="body ">
-       <div class="tabber">
-       <tab custom-bar-width="50px"  >
-            <tab-item selected>
-                <router-link to="/one">科目一</router-link>
-
-            </tab-item>
-            <tab-item >
-                <router-link to="/four">科目四</router-link>
-            </tab-item>
-        </tab>
+       <div class="van-tabbar" >
+       <van-tabs v-model="active" swipeable>
+        <van-tab title="标签 1">
+               <one></one>    
+        </van-tab>
+        <van-tab title="标签 2">
+            <four></four>
+        </van-tab>
+      
+        </van-tabs>
+        
        </div>
-        <div  ref="bscroll" class="bscroll main" style="overflow:hidden;position:absolute;top:4rem; ">
-            <div  >
-              <router-view ></router-view>
-            </div>
-         
-        </div>
-
   </div>
 </template>
 
 <script>
-import { Tab, TabItem } from 'vux'
+import { Tab, Tabs } from 'vant';
 import StandardTop from '@/components/Tabbar/StandardTop'
 import StandardBottom from '@/components/Tabbar/StandardBottom'
    import BScroll from 'better-scroll';
+   import SubjectOne from '@/pages/index/SubjectOne'
+      import SubjectFour from '@/pages/index/SubjectFour'
 export default {
   name: "Index",
   data(){
@@ -34,26 +30,31 @@ export default {
       }
   },
   components:{
-      Tab,
-      TabItem,
+       "van-tab":Tab,
+      "van-tabs":Tabs,
       "standardtop":StandardTop,
-      "standardbottom":StandardBottom
+      "standardbottom":StandardBottom,
+      "one":SubjectOne,
+      "four":SubjectFour
   },
    mounted(){
-      this.$nextTick(() => {
-
-        let bscrollDom = this.$refs.bscroll;
-
-        this.aBScroll = new BScroll(bscrollDom, {
-            click:true,
-            mouseWheel: true,//开启鼠标滚轮
-        })
-
-      })
+      
     },
 };
 </script>
 
 <style lang="scss" scoped>
+  a{
+    width: 100%;
+  }
+  .van-tabbar {
+   
+  position: fixed;
+  width: 100%;
 
+  top: 2rem;
+  z-index: 999;
+  
+
+}
 </style>

@@ -18,7 +18,7 @@
           </tabbar-item>
            <tabbar-item >
               <span slot="label">
-                 <router-link :to="'/home/my'">
+                 <router-link :to="'/home/friend'">
                         社交
                   </router-link>
               </span>

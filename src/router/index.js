@@ -17,6 +17,10 @@ import MajorExtance from '@/pages/index/majorpratice/MajorExtance'
 import PageChange  from '@/pages/examType/PageChange';
 import ErrorCollect from '@/pages/index/errorcollection/index';
 import Collection from '@/pages/index/errorcollection/collection';
+import FriendIndex from '@/pages/friend/FriendExtance';
+import ChatMessage from '@/pages/friend/Friend/ChatMessage';
+import FriendList from '@/pages/friend/Friend/FriendList';
+import Tab from '@/pages/try/tabs'
 import trys from '@/pages/try/trys'
 
 Vue.use(Router)
@@ -27,6 +31,11 @@ export default new Router({
       path: '/exam',
       name: 'RandomExam',
       component: RandomExam
+    },
+    {
+      path: '/tabs',
+      name: 'RandomExam',
+      component: Tab
     },
     {
       path: '/exampc',
@@ -43,6 +52,7 @@ export default new Router({
       name:"collection",
       component:Collection
     },
+   
     {
       path: '/',
       name: 'Index',
@@ -86,8 +96,25 @@ export default new Router({
           ]
         },{
            path: '/home/my',
-           component: My
-        }
+           component: My,
+          
+        },
+        {
+          path: '/home/friend',
+          component:FriendIndex,
+          redirect:"/chat",
+          children: [
+            {
+              path: '/chat',
+              component: ChatMessage
+            },
+            {
+              path: '/friendlist',
+              component: FriendList
+            },
+          ]
+
+        },
       ]
     },
    
