@@ -69,8 +69,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+html,body{
+  background:#fff;
+  height: 100%;
+}
 .body {
   font-size: 16px;
+  background:#fff !important;
+  height: 100%;
 }
 .chat-items {
   padding: 0 12px;

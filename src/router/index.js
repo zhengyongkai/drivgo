@@ -131,6 +131,10 @@ export default new Router({
       path: '/major/extance',
       name: 'MajorExtance',
       component: MajorExtance
-    }
+    },
+    {
+      path: '/ss/friendlist',
+      component: FriendList
+    },
   ]
 })

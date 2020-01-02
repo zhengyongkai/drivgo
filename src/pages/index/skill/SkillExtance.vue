@@ -14,7 +14,7 @@
            
         </tab>
     </div>
-         <div ref="bscroll" class="bscroll main" style="overflow:hidden;position:absolute;top:4rem; " >
+         <div ref="bscroll" class="bscroll main" style="position:absolute;top:4rem; " >
            <div  class="bscroll-container" >
              <router-view ></router-view>
            </div>
