@@ -44,8 +44,56 @@
       <div class="slide" :class="showContent004?'animate':''">
           <div class="friend-items" v-for=" i  in 3">
               <div class="friend-item">
-                  <div class="firend-img">
+                  <div class="friend-img">
                       <img src="@/image/logo.png" />
+                  </div>
+                   <div class="friend-info">
+                      <div class="friend-nast">
+                          <div class="info_name">
+                            冰花雨
+                          </div>
+                          <div class="info_status">
+                            ▪ 在线
+                          </div>
+                      </div>
+                      <div class="chat-button">
+                          <button>聊天</button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+  
+       <cell
+       title="'黑名单'"
+      is-link
+      :border-intent="false"
+      :arrow-direction="showContent001 ? 'up' : 'down'"
+      @click.native="showContent001 = !showContent001">
+        <div slot="title" class="cell-title">
+            黑名单 (1 / 1000)
+        </div>
+      </cell>
+
+      <div class="slide" :class="showContent001?'animate':''">
+          <div class="friend-items" v-for=" i  in 3">
+              <div class="friend-item">
+                  <div class="friend-img">
+                      <img src="@/image/my.jpg" />
+                  </div>
+                   <div class="friend-info">
+                      <div class="friend-nast">
+                          <div class="info_name">
+                            冰花雨
+                          </div>
+                          <div class="info_status">
+                            ▪ 在线
+                          </div>
+                      </div>
+                      <div class="chat-button">
+                          <button>聊天</button>
+                      </div>
                   </div>
               </div>
           </div>
@@ -69,7 +117,8 @@ export default {
   data() {
     return {
        activeName: ['1'],
-       showContent004:false
+       showContent004:true,
+      showContent001:true,
     };
   },
   components: {
@@ -97,6 +146,7 @@ export default {
 .friendtop {
   height: 4rem;
   background: #fff;
+  margin-bottom: 16px;
 }
 
 .friendtop_items {
@@ -119,7 +169,7 @@ export default {
   }
 }
 .friend-content{
-  margin-top: 16px;
+  
   .cell-title{
     font-size: 14px;
     padding-left: 2px;
@@ -140,6 +190,34 @@ export default {
             height: 42px;
             border-radius: 20px;
             margin-right: 8px;
+        }
+    }
+    .friend-info{
+      width: 100%;
+      display:flex;
+      .friend-nast{
+        display: flex;
+        .info_name{
+          font-size: 14px;
+          margin-right: 10px;
+        }
+        .info_status{
+          font-size: 12px;
+          color:rgba(10, 187, 7, 0.5);
+        }
+      }
+      .chat-button{
+        margin-left: auto;
+          button{
+          width: 50px;
+          color:rgba(10, 187, 7, 0.5);
+          line-height: 30px;
+          text-decoration: underline;
+          height: 30px;
+          background: #fff;
+          border:1px solid rgba(10, 187, 7, 0.5);
+          font-size: 14px;
+          }
         }
     }
   }

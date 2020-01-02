@@ -36,7 +36,8 @@ export default {
     standardtop: StandardTop,
     standardbottom: StandardBottom
   },
-  mounted() {}
+  mounted() {
+  }
 };
 </script>
 
