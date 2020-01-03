@@ -19,6 +19,7 @@ import ErrorCollect from '@/pages/index/errorcollection/index';
 import Collection from '@/pages/index/errorcollection/collection';
 import FriendIndex from '@/pages/friend/FriendExtance';
 import ChatMessage from '@/pages/friend/Friend/ChatMessage';
+import SimpleChat from '@/pages/friend/Friend/SimpleChat';
 import FriendList from '@/pages/friend/Friend/FriendList';
 import Tab from '@/pages/try/tabs'
 import trys from '@/pages/try/trys'
@@ -115,7 +116,12 @@ export default new Router({
           ]
 
         },
+        
       ]
+    },
+    {
+      path: '/simplechat',
+      component: SimpleChat
     },
    
     {

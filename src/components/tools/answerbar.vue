@@ -14,7 +14,7 @@
           </div>
           <div class="item">
             <img src="../../image/feiqi/num.png" />
-            <div>0 / 4937</div>
+            <div>{{this.$store.state.AnswerNow}} / 4937</div>
           </div>
           <div style="margin-left: auto;float:right;">清空记录</div>
         </div>
@@ -25,7 +25,7 @@
         >
           <div class="content bscroll-container" style="overflow-y: scroll;" ref="bscroll">
             <div
-              :class="n==1?'round error':(n <= 2&&n!=1 ? 'round right' : (n==3)?'round selectNow':'round')"
+              :class="n==1?'round error':(n <= 2&&n!=1 ? 'round right' : (n==$store.state.AnswerNow)?'round selectNow':'round')"
               v-for=" n in 100"
               @click="change(n)"
             >{{n}}</div>

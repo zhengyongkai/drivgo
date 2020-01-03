@@ -12,6 +12,9 @@ import VueTouch from 'vue-touch'
 import vueg from 'vueg'
 import "./style/font.css";
 import './assets/iconfront/iconfont.css';
+import './util/Global';
+import './mock/mock';
+import store from  './store/store';
 Vue.use(vueg, router) 
 Vue.use(VueTouch, {
   name: 'v-touch'
@@ -23,10 +26,12 @@ VueTouch.config.swipe = {
 
 }
 
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+  store,
   components: {
     App
   },

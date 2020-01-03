@@ -57,7 +57,7 @@
 
     
     </div>
-      <answerBar :show='asbar' style="  overflow:hidden;"></answerBar>
+      <answerBar :show='asbar' style="  overflow:hidden;" ></answerBar>
   </div>
 </template>
 
@@ -82,6 +82,8 @@ import ExamBottomBar from "../../components/Tabbar/ExamBottomBar";
 import AnswerBar from "../../components/tools/answerbar";
 import BScroll from "better-scroll";
 import { mockdata } from "../../config/data";
+import {mapState,mapActions,mapGetters} from 'vuex';
+
 export default {
   name: "RandomExam",
   data() {
@@ -93,7 +95,7 @@ export default {
       i: 1,
       aBScroll: null,
       asbar: false,
-      data: mockdata[0],
+      data: {},
       dati: true,
       choose: null
     };
@@ -115,7 +117,8 @@ export default {
     Popup
   },
   created() {
-    this.init();
+   // this.init();
+  
   },
 
   computed: {
@@ -125,6 +128,15 @@ export default {
     }
   },
   mounted() {
+    var that = this
+    console.log("ss")
+     this.update().then((res)=>{
+      //  console.log(res[0]
+      console.log(res)
+          that.data = res[0]
+          console.log(this.data[0])
+    
+     });
     this.$nextTick(() => {
       let bscrollDom = this.$refs.bscroll;
 
@@ -145,56 +157,79 @@ export default {
       }
     },
     selects(index) {
+      var that = this 
       if (this.choose != null) {
         return;
       }
       this.choose = index;
+      this.$store.dispatch("RangeUp");
+      this.update().then((res)=>{
+      //  console.log(res[0]
+      console.log(res)
+         that.choose = null
+          that.data = res[0]
+          console.log(this.data[0])
+    
+     });
+      console.log(this.$store.state.AnswerNow)
+
     },
     show(index) {
       this.$refs.previewer.show(index);
     },
-    init() {
-      this.update(this.i).then(res => {
-        this.item = res;
-      });
-    },
-    clickHandle({ type }) {
-      switch (type) {
-        case "pre":
-          setTimeout(() => {
-            this.loadding = true;
-          }, 500);
-          break;
-        case "next":
-          this.update(this.i++).then(res => {
-            this.item = res;
-          });
-          break;
-        case "add":
-          alert("add");
-          break;
-      }
-    },
+    // init() {
+    //   this.update(this.i).then(res => {
+    //     this.item = res;
+    //   });
+    // },
+    // clickHandle({ type }) {
+    //   switch (type) {
+    //     case "pre":
+    //       setTimeout(() => {
+    //         this.loadding = true;
+    //       }, 500);
+    //       break;
+    //     case "next":
+    //       this.update(this.i++).then(res => {
+    //         this.item = res;
+    //       });
+    //       break;
+    //     case "add":
+    //       alert("add");
+    //       break;
+    //   }
+    // },
 
-    update(problemId) {
-      return new Promise((resolve, reject) => {
-        let params = {
-          r: Math.random(),
-          index: problemId
-        };
-        let str = "";
-        for (var key in params) {
-          str = str + key + "=" + params[key] + "&";
-        }
-        str = str.substr(0, str.length - 1);
-        axios
-          .get("/api/get_question?" + str)
-          .then(res => {
-            console.log(res.data);
-            return resolve(res.data);
-          })
-          .catch(err => {});
-      });
+    update() {
+      // return new Promise((resolve, reject) => {
+      //   let params = {
+      //     r: Math.random(),
+      //     index: problemId
+      //   };
+      //   let str = "";
+      //   for (var key in params) {
+      //     str = str + key + "=" + params[key] + "&";
+      //   }
+      //   str = str.substr(0, str.length - 1);
+      //   axios
+      //     .get("/api/get_question?" + str)
+      //     .then(res => {
+      //       console.log(res.data);
+      //       return resolve(res.data);
+      //     })
+      //     .catch(err => {});
+      // });
+      var that = this
+      return new Promise((resolve,reject)=>{
+        axios.get("/getMockData").then((res)=>{
+          let datas  = {};
+          console.log(res.data)
+          datas=  res.data.articles;
+        
+          resolve(res.data.articles)
+
+        })
+      })
     },
     initcheckbox(json) {
       let option = [];
