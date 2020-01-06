@@ -1,63 +1,66 @@
 <template>
-  <div class="body" >
+  <div class="body">
     <!-- <div>这是头部</div> -->
-    <div >
+    <div>
       <standardtop style="z-index:999;"></standardtop>
     </div>
-      <div class="tabber">
-        <tab custom-bar-width="20px">
-          <tab-item selected @on-item-click="selectTab('dati')">
-            <div>答题模式</div>
-          </tab-item>
-          <tab-item @on-item-click="selectTab('beiti')">
-            <div>背题模式</div>
-          </tab-item>
-        </tab>
-      </div>
-    <div class="main bscroll" ref="bscroll"  style="overflow:hidden;position:absolute;top:4rem;   ">
-    
-      <div class="bscroll-container" ref="bscroll" >
+    <div class="tabber">
+      <tab custom-bar-width="20px">
+        <tab-item selected @on-item-click="selectTab('dati')">
+          <div>答题模式</div>
+        </tab-item>
+        <tab-item @on-item-click="selectTab('beiti')">
+          <div>背题模式</div>
+        </tab-item>
+      </tab>
+    </div>
+    <div class="main bscroll" ref="bscroll" style="overflow:hidden;position:absolute;top:4rem;   ">
+      <div class="bscroll-container" ref="bscroll">
         <div>
-        <div class="content">
-        <div class="tab">判断</div>
-        <div v-html="data.title" class="title"></div>
-        <div class="choice">
-          <!-- <img class="img" :src="data.img[0]['src']" @click="show(0)" />
-          <previewer :list="data.img" ref="previewer"></previewer> -->
-          <div class="items">
-            <div v-for="(o, index) in data.choice" class="item" :key="index">
-              <div class="itemcontent" @click="selects(index)">
-                <div v-if="(choose==null||choose!=index)&&(index!=data.select||choose==null)">{{o}}</div>
-                <div v-if="index==data.select&&choose!=null"><img src="../../image/correct.png" class="imgtf" /></div>
-                <div v-if="index!=data.select&&choose==index"><img src="../../image/wrong.png" class="imgtf" /></div>
-                <div>{{data.choices[index]}}</div>
+          <div class="content">
+            <div class="tab">判断</div>
+            <div v-html="data.title" class="title"></div>
+            <div class="choice">
+              <!-- <img class="img" :src="data.img[0]['src']" @click="show(0)" />
+              <previewer :list="data.img" ref="previewer"></previewer>-->
+              <div class="items">
+                <div v-for="(o, index) in data.choice" class="item" :key="index">
+                  <div class="itemcontent" @click="selects(index,data.select,data.id)">
+                    <div
+                      v-if="(choose==null||choose!=index)&&(index!=data.select||choose==null)"
+                    >{{o}}</div>
+                    <div v-if="index==data.select&&choose!=null">
+                      <img src="../../image/correct.png" class="imgtf" />
+                    </div>
+                    <div v-if="index!=data.select&&choose==index">
+                      <img src="../../image/wrong.png" class="imgtf" />
+                    </div>
+                    <div>{{data.choices[index]}}</div>
+                  </div>
+                </div>
+              </div>
+              <div class="answer" :hidden="dati">
+                <span>答案：C</span>
+                <span>报错</span>
               </div>
             </div>
           </div>
-          <div class="answer" :hidden="dati">
-            <span>答案：C</span>
-            <span>报错</span>
+          <div class="jiexi" :hidden="dati">
+            <div>
+              <span>
+                <b>|</b>
+                <b>官方解析</b>
+              </span>
+              <span>考考朋友</span>
+            </div>
+            <div>{{data.answer}}</div>
           </div>
         </div>
       </div>
-      <div class="jiexi" :hidden="dati">
-        <div>
-          <span>
-            <b>|</b>
-            <b>官方解析</b>
-          </span>
-          <span>考考朋友</span>
-        </div>
-        <div>{{data.answer}}</div>
-      </div>
-      </div>
+      <div></div>
     </div>
-    <div>
-      </div>
-
-    
-    </div>
-      <answerBar :show='asbar' style="  overflow:hidden;" ></answerBar>
+    <answerBar :show="asbar" style="  overflow:hidden;"></answerBar>
+    <loading v-if="!loading"></loading>
   </div>
 </template>
 
@@ -82,7 +85,9 @@ import ExamBottomBar from "../../components/Tabbar/ExamBottomBar";
 import AnswerBar from "../../components/tools/answerbar";
 import BScroll from "better-scroll";
 import { mockdata } from "../../config/data";
-import {mapState,mapActions,mapGetters} from 'vuex';
+import { mapState, mapActions, mapGetters } from "vuex";
+import { getRequest } from "../../util/Global";
+import { convert2Array } from "../../util/util";
 
 export default {
   name: "RandomExam",
@@ -90,14 +95,16 @@ export default {
     return {
       item: {},
       select: "",
-      loadding: false,
+      loading: false,
       show1: true,
       i: 1,
       aBScroll: null,
       asbar: false,
       data: {},
       dati: true,
-      choose: null
+      choose: null,
+      current: [],
+      state:[]
     };
   },
   components: {
@@ -105,7 +112,7 @@ export default {
     Badge,
     Bottom,
     Previewer,
-    loadings: loading,
+    loading: loading,
     standardtop: StandardTop,
     Tab,
     TabItem,
@@ -117,8 +124,7 @@ export default {
     Popup
   },
   created() {
-   // this.init();
-  
+    // this.init();
   },
 
   computed: {
@@ -128,19 +134,15 @@ export default {
     }
   },
   mounted() {
-    var that = this
-    console.log("ss")
-     this.update().then((res)=>{
-      //  console.log(res[0]
-      console.log(res)
-          that.data = res[0]
-          console.log(this.data[0])
-    
-     });
-    this.$nextTick(() => {
-      let bscrollDom = this.$refs.bscroll;
-
-      this.aBScroll = new BScroll(bscrollDom, {
+    var that = this;
+    let current = localStorage.getItem("sqp_current"), //答题的熟
+      sqpstates = localStorage.getItem("sqp_states"); //答案的对应的index
+    that.current = convert2Array(current);
+    that.state  = convert2Array(sqpstates);
+    that.update();
+    that.$nextTick(() => {
+      let bscrollDom = that.$refs.bscroll;
+      that.aBScroll = new BScroll(bscrollDom, {
         click: true,
         mouseWheel: true //开启鼠标滚轮
       });
@@ -156,23 +158,28 @@ export default {
         this.dati = false;
       }
     },
-    selects(index) {
-      var that = this 
+    selects(index, answer,id) {
+      var  that = this
+      let error = localStorage.getItem("sq_error")
       if (this.choose != null) {
         return;
       }
+      console.log('index',index)
+      console.log('answer',answer)
+      if (answer instanceof Array) {
+      } else {
+        if (index !== answer) {
+         // console.log("ss")
+           let arr = convert2Array(error) ;
+           let arrs = arr.push(id)
+           console.log(arr)
+           localStorage.setItem("sq_error",arrs);
+        }
+      }  
+   
       this.choose = index;
       this.$store.dispatch("RangeUp");
-      this.update().then((res)=>{
-      //  console.log(res[0]
-      console.log(res)
-         that.choose = null
-          that.data = res[0]
-          console.log(this.data[0])
-    
-     });
-      console.log(this.$store.state.AnswerNow)
-
+      this.update();
     },
     show(index) {
       this.$refs.previewer.show(index);
@@ -219,17 +226,30 @@ export default {
       //     })
       //     .catch(err => {});
       // });
-      var that = this
-      return new Promise((resolve,reject)=>{
-        axios.get("/getMockData").then((res)=>{
-          let datas  = {};
-          console.log(res.data)
-          datas=  res.data.articles;
-        
-          resolve(res.data.articles)
+      var that = this;
+      // return new Promise((resolve,reject)=>{
+      //   axios.get("/getMockData").then((res)=>{
+      //     let datas  = {};
+      //     console.log(res.data)
+      //     datas=  res.data.articles;
 
+      //     resolve(res.data.articles)
+
+      //   })
+      // })
+      this.loading = false;
+      getRequest
+        .request({
+          url: "/getMockData",
+          methods: "GET"
         })
-      })
+        .then(res => {
+          console.log(res);
+          this.loading = true;
+
+          that.choose = null;
+          that.data = res.articles[0];
+        });
     },
     initcheckbox(json) {
       let option = [];

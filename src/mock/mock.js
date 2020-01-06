@@ -1,9 +1,13 @@
 
 import Mock from 'mockjs';
 const Random = Mock.Random;
+Mock.setup({
+    timeout:1500
+})
 const produceNewsData = function() {
     let articles = [];
     for (let i = 0; i < 100; i++) {
+        let id =  i;
         let title = Random.cword(50);
         let choice = ["A","B","C","D"];
         let choices = [Random.cword(3),Random.cword(3),Random.cword(3),Random.cword(3)];
@@ -11,6 +15,7 @@ const produceNewsData = function() {
         let select = Math.floor(Math.random() * (choice.length  + 1) ) 
         let type = 1;
         articles.push({
+            id,
             title,
             choice,
             choices,

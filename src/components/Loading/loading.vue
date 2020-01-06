@@ -16,6 +16,7 @@ export default {
 
 <style>
 .sk-floding-cube-parent {
+  z-index: 500;
   position: absolute;
   left: 50%;
   top: 40%;
