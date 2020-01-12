@@ -6,15 +6,15 @@
         <div @click="popup" class="top">
           <div class="item">
             <img src="../../image/feiqi/right.png" />
-            <div style="color:#1DD1AA">0</div>
+            <div style="color:#1DD1AA">{{this.$store.state.AnswerRight}}</div>
           </div>
           <div class="item">
             <img src="../../image/feiqi/wrong.png" />
-            <div style="color:red">1</div>
+            <div style="color:red">{{this.$store.state.AnswerError}}</div>
           </div>
           <div class="item">
             <img src="../../image/feiqi/num.png" />
-            <div>{{this.$store.state.AnswerNow}} / 4937</div>
+            <div>{{this.$store.state.AnswerNow}} / {{total}}</div>
           </div>
           <div style="margin-left: auto;float:right;">清空记录</div>
         </div>
@@ -26,8 +26,8 @@
           <div class="content bscroll-container" style="overflow-y: scroll;" ref="bscroll">
             <div
               :class="n==1?'round error':(n <= 2&&n!=1 ? 'round right' : (n==$store.state.AnswerNow)?'round selectNow':'round')"
-              v-for=" n in 100"
-              @click="change(n)"
+              v-for=" n in total"
+              @click="selectitem(n)"
             >{{n}}</div>
           </div>
           <!-- <div class="bscroll-container">dasddddddddddddddddddddddddddddddddddddddddddddd</div> -->
@@ -41,6 +41,13 @@
 import ExamBottomBar from "../../components/Tabbar/ExamBottomBar";
 import BScroll from "better-scroll";
 import { Popup, Scroller } from "vux";
+import {
+  convert2Array,
+  convert2Arrays,
+  touchStart,
+  touchMove,
+  touchEnd
+} from "../../util/util";
 export default {
   name: "answerbar",
   data() {
@@ -48,7 +55,7 @@ export default {
       isShow: false
     };
   },
-  props: {},
+  props: ["total"],
 
   components: {
     Popup,
@@ -66,8 +73,10 @@ export default {
     });
   },
   methods: {
-    change(e) {
+    selectitem(e) {
       console.log(e);
+      this.$emit("selectitem", e);
+      this.isShow = false
     },
     popup() {
       this.isShow = !this.isShow;
@@ -76,6 +85,16 @@ export default {
         document.documentElement.style.overflow = "";
       } else {
         document.documentElement.style.overflow = "hidden";
+      }
+    },
+
+    
+  },
+
+  watch: {
+    isShow: function(value) {
+      if(value==true){
+        
       }
     }
   }
@@ -94,11 +113,10 @@ export default {
   right: 0;
   transition: all 0.8s;
 }
-.round{
-  border-top-left-radius:20px;
-  border-top-right-radius:20px;
-
-} 
+.round {
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
 
 .body {
   display: block;

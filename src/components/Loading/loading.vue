@@ -1,11 +1,13 @@
 <template>
-<div class="sk-floding-cube-parent">
+<div class="loading-content">
+  <div class="sk-floding-cube-parent">
   <div class="sk-folding-cube">
     <div class="sk-cube1 sk-cube"></div>
     <div class="sk-cube2 sk-cube"></div>
     <div class="sk-cube4 sk-cube"></div>
     <div class="sk-cube3 sk-cube"></div>
   </div>
+</div>
 </div>
 </template>
 
@@ -14,8 +16,18 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+.loading-content{
+  z-index: 999;
+
+  position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
 .sk-floding-cube-parent {
+  
   z-index: 500;
   position: absolute;
   left: 50%;

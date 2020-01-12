@@ -1,118 +1,176 @@
 <template>
   <div class="body">
-    <img src />
-    <div class="top">
-      <div class="type">
-        <span v-if="currentInfo.Type==2">单选</span>
-        <span v-else>判断</span>
+    <div class="content">
+      <div class="tab">判断</div>
+      <div v-html="data.title" class="title"></div>
+      <div class="choice">
+        <!-- <img class="img" :src="data.img[0]['src']" @click="show(0)" />
+        <previewer :list="data.img" ref="previewer"></previewer>-->
+        <div class="items">
+          <div v-for="(o, index) in data.choice" class="item" :key="index">
+            <div class="itemcontent" @click="selects(index,data.select,data.id)">
+              <div v-if="(choose==null||choose!=index)&&(index!=data.select||choose==null)">{{o}}</div>
+
+              <div v-if="index==data.select&&choose!=null">
+                <img src="../../image/correct.png" class="imgtf" />
+              </div>
+              <div v-if="index!=data.select&&choose==index">
+                <img src="../../image/wrong.png" class="imgtf" />
+              </div>
+              <div>{{data.choices[index]}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="answer" :hidden="dati">
+          <span>答案：{{data.choice[data.select]}}</span>
+          <span>报错</span>
+        </div>
       </div>
-      <div class="title">{{currentInfo.question}}</div>
     </div>
-    <img v-if="currentInfo.sinaimg" src="../../image/logo.png" class="image">
-    <div class="answer">
-      <div v-for="(o, index) in option" class="item"  :key="index">
-      <div v-show="1==2">{{o.index}}</div>
-      <!-- <img src="../../image/correct.png" alt="" >
-       <img src="../../image/wrong.png" alt="" > -->
-      <!-- <img src="../../image/wrong.png" alt="" > --> 
-      <div>{{o.label}}</div>
+    <div class="jiexi" :hidden="dati">
+      <div>
+        <span>
+          <b>|</b>
+          <b>官方解析</b>
+        </span>
+        <span>考考朋友</span>
+      </div>
+      <div>{{data.answer}}</div>
     </div>
-    </div>
-  
   </div>
 </template>
 
 <script>
 export default {
   name: "Select",
-  props: {
-    currentInfo: {
-      type: Object,
-      required: true
-    },
-    option: {
-      type: Array,
-      required: true
-    },
-    select: {
-      type: String
-    }
-  },
+  props: [
+    'data',
+    "choose",
+    'dati',
+    
+  ],
   data() {
     return {};
   },
+  watch:{
+    data:function(index){
+        if(index.select instanceof Array){
+            console.log("不是多选")
+            
+        }else{
+            console.log("是多选")
+           
+        }
+    }
+  },
   created() {},
-  methods: {}
+  methods: {
+    selects(index,select,id){
+      console.log(index+" "+select+" "+id)
+       this.$emit('selects', index,select,id);
+    },
+
+  },
+ 
 };
 </script>
 
 <style lang="scss" scoped>
 .body {
-  font-size: 20px;
-  padding: 0 1rem;
-  color: #000;
-
-}
-.top {
-   display: flex;
-     
-  font-size: 18px;
-  margin-bottom: 1rem;
-  .type {
-    font-size: 15px;
-     height: 30px;
-    width: 100px;
-    border: 1px solid #d4e157;
-    color:#d4e157;
-    text-align: center;
-    margin-right: 0.5rem;
-    line-height: 25px;
-    
-  }
-  .title{
-    flex-grow:1;
-    line-height: 26px;
-  }
-}
-.image{
-  width: 100%;
-  height:10rem;
-  padding: 0.5rem 0;
- 
-}
-
-.answer{
-  .item{
-    display: flex;
-    >:first-child{
-      font-size: 20px;
-      margin: 10px 0;
-      height: 24px;
-      width: 24px;
+  font-size: 16px;
+  
+  .content {
+    -webkit-overflow-scrolling: touch; /* ios5+ */
+    height: 100%;
+    background: #fff;
+    padding: 12px 8px;
+    .tab {
+      min-width: 60px;
+      float: left;
+      margin-right: 10px;
+      background: #1dd1aa;
+      border-radius: 5px;
       text-align: center;
-      border-radius: 100%;
-      border: 1px solid gray;
-      margin-right: 0.5rem;
+      color: white;
     }
-    >:last-child{
-      font-size: 18px;
-      margin: 10px 0;
-   
-      text-align: center;
-     
-   
-      
+
+    .title {
+      line-height: 25px;
     }
-    img{
-      font-size: 20px;
+
+    .img {
+      width: 100%;
+      height: 10rem;
+    }
+
+    .item {
+      .itemcontent {
+        display: flex;
+
+        div:first-child {
+          width: 30px;
+          height: 30px;
+          line-height: 30px;
+          border-radius: 100%;
+          text-align: center;
+          background: white;
+          margin: 10px 10px;
+          box-shadow: 0 0 5px #57535324;
+          font-weight: bold;
+        }
+
+        .imgtf {
+          width: 30px;
+          height: 30px;
+          line-height: 30px;
+          border-radius: 100%;
+          text-align: center;
+          background: white;
+
+          font-weight: bold;
+        }
+
+        div:last-child {
+          height: 30px;
+          line-height: 30px;
+          margin: 10px 10px;
+        }
+      }
+    }
+
+    .answer {
+      padding: 10px;
       margin: 10px 0;
-      height: 24px;
-      width: 24px;
-      text-align: center;
-      border-radius: 100%;
-     
-      margin-right: 0.5rem;
-      
+      width: 100%;
+      background: #f7f9fa;
+
+      :last-child {
+        float: right;
+        color: #a7a7a7;
+      }
+    }
+  }
+
+  .jiexi {
+    padding: 12px 8px;
+    margin: 10px 0;
+    background: #fff;
+
+    b:first-child {
+      color: #1dd1aa;
+    }
+
+    span:last-child {
+      float: right;
+    }
+
+    div:first-child {
+      margin-bottom: 16px;
+    }
+
+    div:last-child {
+      text-indent: 16px;
+      width: 100%;
     }
   }
 }

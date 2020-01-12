@@ -10,12 +10,14 @@ Vue.prototype.$axios = axios;
 Vue.config.productionTip = false
 import VueTouch from 'vue-touch'
 import vueg from 'vueg'
+import  { ToastPlugin } from 'vux'
 import "./style/font.css";
 import './assets/iconfront/iconfont.css';
 import './util/Global';
 import './mock/mock';
 import store from  './store/store';
 Vue.use(vueg, router) 
+Vue.use(ToastPlugin)
 Vue.use(VueTouch, {
   name: 'v-touch'
 })

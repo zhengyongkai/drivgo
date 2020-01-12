@@ -15,55 +15,18 @@
       </tab>
     </div>
     <div class="main bscroll" ref="bscroll" style="overflow:hidden;position:absolute;top:4rem;   ">
-      <div class="bscroll-container" ref="bscroll">
+      <div class="bscroll-container selects" ref="bscroll">
         <div>
-          <div class="content">
-            <div class="tab">判断</div>
-            <div v-html="data.title" class="title"></div>
-            <div class="choice">
-              <!-- <img class="img" :src="data.img[0]['src']" @click="show(0)" />
-              <previewer :list="data.img" ref="previewer"></previewer>-->
-              <div class="items">
-                <div v-for="(o, index) in data.choice" class="item" :key="index">
-                  <div class="itemcontent" @click="selects(index,data.select,data.id)">
-                    <div
-                      v-if="(choose==null||choose!=index)&&(index!=data.select||choose==null)"
-                    >{{o}}</div>
-                    <div v-if="index==data.select&&choose!=null">
-                      <img src="../../image/correct.png" class="imgtf" />
-                    </div>
-                    <div v-if="index!=data.select&&choose==index">
-                      <img src="../../image/wrong.png" class="imgtf" />
-                    </div>
-                    <div>{{data.choices[index]}}</div>
-                  </div>
-                </div>
-              </div>
-              <div class="answer" :hidden="dati">
-                <span>答案：C</span>
-                <span>报错</span>
-              </div>
-            </div>
-          </div>
-          <div class="jiexi" :hidden="dati">
-            <div>
-              <span>
-                <b>|</b>
-                <b>官方解析</b>
-              </span>
-              <span>考考朋友</span>
-            </div>
-            <div>{{data.answer}}</div>
-          </div>
+          <selectdt :data="data" :choose="choose" :dati="dati" v-if="model=='dt'" @selects="selects"></selectdt>
+           <selectxx :data="data" :choose="choose"  v-if="model=='xx'" @selects="selects"></selectxx>
         </div>
       </div>
       <div></div>
     </div>
-    <answerBar :show="asbar" style="  overflow:hidden;"></answerBar>
+    <answerBar :show="asbar" style="  overflow:hidden;" @selectitem="selectitem" :total="total"></answerBar>
     <loading v-if="!loading"></loading>
   </div>
 </template>
-
 <script>
 import axios from "axios";
 import {
@@ -75,9 +38,11 @@ import {
   Group,
   Cell,
   PopupHeader,
-  Popup
+  Popup,
+  Toast
 } from "vux";
 import Select from "../../components/Select/Select";
+import Selects from "../../components/Select/Selects";
 import loading from "../../components/Loading/loading";
 import Bottom from "../../components/Tabbar/ExamBottom";
 import StandardTop from "../../components/Tabbar/StandardTop";
@@ -87,8 +52,15 @@ import BScroll from "better-scroll";
 import { mockdata } from "../../config/data";
 import { mapState, mapActions, mapGetters } from "vuex";
 import { getRequest } from "../../util/Global";
-import { convert2Array } from "../../util/util";
-
+import {
+  convert2Array,
+  convert2Arrays,
+  touchStart,
+  touchMove,
+  touchEnd
+} from "../../util/util";
+import AnswerNotice from "../../components/Notice/AnswerNotice";
+import { Notify } from "vant";
 export default {
   name: "RandomExam",
   data() {
@@ -104,11 +76,16 @@ export default {
       dati: true,
       choose: null,
       current: [],
-      state:[]
+      state: [],
+      autoincrement: 0,
+      currents: null,
+      total: 0,
+      model:"dt"
     };
   },
   components: {
-    Selects: Select,
+    selectdt: Select,
+    selectxx:Selects,
     Badge,
     Bottom,
     Previewer,
@@ -121,15 +98,14 @@ export default {
     exambottombar: ExamBottomBar,
     AnswerBar,
     PopupHeader,
-    Popup
+    Popup,
+    answernotice: AnswerNotice
   },
   created() {
     // this.init();
   },
-
   computed: {
     array() {
-      console.log(this.initcheckbox(this.item));
       return this.initcheckbox(this.item);
     }
   },
@@ -137,10 +113,26 @@ export default {
     var that = this;
     let current = localStorage.getItem("sqp_current"), //答题的熟
       sqpstates = localStorage.getItem("sqp_states"); //答案的对应的index
-    that.current = convert2Array(current);
-    that.state  = convert2Array(sqpstates);
-    that.update();
+    if (current) {
+      that.currents = parseInt(current);
+      this.$vux.toast.text("已回到上次答题位置", "top");
+    } else {
+      localStorage.setItem("sqp_current", 1);
+      that.currents = 1;
+    }
+    that.update(that.currents);
+    this.$store.state.AnswerNow = that.currents;
+    that.init();
     that.$nextTick(() => {
+      document
+        .getElementsByClassName("selects")[0]
+        .addEventListener("touchstart", touchStart.bind(that));
+      document
+        .getElementsByClassName("selects")[0]
+        .addEventListener("touchmove", touchMove.bind(that));
+      document
+        .getElementsByClassName("selects")[0]
+        .addEventListener("touchend", touchEnd.bind(that));
       let bscrollDom = that.$refs.bscroll;
       that.aBScroll = new BScroll(bscrollDom, {
         click: true,
@@ -148,112 +140,152 @@ export default {
       });
     });
   },
-  watch: {},
+  created() {
+    
+  },
+  destroyed() {
+     document
+        .getElementsByClassName("selects")[0]
+        .removeEventListener("touchstart", touchStart.bind(this));
+      document
+        .getElementsByClassName("selects")[0]
+        .removeEventListener("touchmove", touchMove.bind(this));
+      document
+        .getElementsByClassName("selects")[0]
+        .removeEventListener("touchend", touchEnd.bind(this));
+  },
+  watch: {
+    currents: function(old, newValue) {
+      this.$store.state.AnswerNow = this.currents;
+  
+      localStorage.setItem("sqp_current", this.currents);
+    }
+  },
+  //答案结果集
   methods: {
+    init() {
+       let result = localStorage.getItem("sq_choose");
+       let right = 0;
+       let error = 0;
+       for(let i of convert2Arrays(result)){
+         if(i.choose == i.index){
+            right++;
+         }else{
+            error++;
+         }
+       } 
+       //console.log(right)
+      this.$store.state.AnswerRight = right;
+      this.$store.state.AnswerError = error;
+      this.$store.state.AnswerResult = convert2Arrays(result)
+    },
     selectTab(model) {
       this.aBScroll.refresh();
       if (model == "dati") {
-        this.dati = true;
+        this.model = "dt";
       } else {
-        this.dati = false;
+        this.model = "xx";
       }
     },
-    selects(index, answer,id) {
-      var  that = this
-      let error = localStorage.getItem("sq_error")
+    selectitem(id) {
+      var that = this;
+      that.currents = id;
+      this.update(id);
+    },
+    selects(index, answer, id) {
+      var that = this;
+      //自增
+      that.autoincrement++;
+      let error = localStorage.getItem("sq_choose");
+      if (!error) {
+        localStorage.setItem("sq_choose", JSON.stringify(new Array()));
+      }
+      let arr = convert2Arrays(error);
       if (this.choose != null) {
         return;
       }
-      console.log('index',index)
-      console.log('answer',answer)
       if (answer instanceof Array) {
       } else {
-        if (index !== answer) {
-         // console.log("ss")
-           let arr = convert2Array(error) ;
-           let arrs = arr.push(id)
-           console.log(arr)
-           localStorage.setItem("sq_error",arrs);
+        let json = {
+          current: that.currents,
+          choose: answer
+        };
+        if (arr == null) {
+          arr = [];
         }
-      }  
-   
-      this.choose = index;
+        try {
+          arr.push({
+            current: that.currents,
+            index: index,
+            choose: answer
+          });
+        } catch (error) {
+          //console.log(error);
+        }
+        localStorage.setItem("sq_choose", JSON.stringify(arr));
+       
+        this.choose = index;
+        if (index !== answer) {
+           this.$store.state.AnswerError++;
+           this.dati=false
+
+        } else {
+           this.$store.state.AnswerRight++;
+          // localStorage.setItem("sqp_current",  this.currents);
+            this.currents = this.currents + 1;
+      localStorage.setItem("sqp_current", that.currents);
       this.$store.dispatch("RangeUp");
-      this.update();
+      this.update(that.currents);
+        }
+        //  this.currents =  this.currents+1
+      
+      }
+      console.log(this.dati)
+     
+    
+      
     },
     show(index) {
       this.$refs.previewer.show(index);
     },
-    // init() {
-    //   this.update(this.i).then(res => {
-    //     this.item = res;
-    //   });
-    // },
-    // clickHandle({ type }) {
-    //   switch (type) {
-    //     case "pre":
-    //       setTimeout(() => {
-    //         this.loadding = true;
-    //       }, 500);
-    //       break;
-    //     case "next":
-    //       this.update(this.i++).then(res => {
-    //         this.item = res;
-    //       });
-    //       break;
-    //     case "add":
-    //       alert("add");
-    //       break;
-    //   }
-    // },
-
-    update() {
-      // return new Promise((resolve, reject) => {
-      //   let params = {
-      //     r: Math.random(),
-      //     index: problemId
-      //   };
-      //   let str = "";
-      //   for (var key in params) {
-      //     str = str + key + "=" + params[key] + "&";
-      //   }
-      //   str = str.substr(0, str.length - 1);
-      //   axios
-      //     .get("/api/get_question?" + str)
-      //     .then(res => {
-      //       console.log(res.data);
-      //       return resolve(res.data);
-      //     })
-      //     .catch(err => {});
-      // });
+    update(id) {
       var that = this;
-      // return new Promise((resolve,reject)=>{
-      //   axios.get("/getMockData").then((res)=>{
-      //     let datas  = {};
-      //     console.log(res.data)
-      //     datas=  res.data.articles;
-
-      //     resolve(res.data.articles)
-
-      //   })
-      // })
       this.loading = false;
       getRequest
         .request({
           url: "/getMockData",
-          methods: "GET"
+          methods: "GET",
+          data: {
+            id: id
+          }
         })
         .then(res => {
-          console.log(res);
+          //console.log(res);
           this.loading = true;
-
-          that.choose = null;
+          let error = localStorage.getItem("sq_choose");
+          let arr = convert2Arrays(error) || [];
+          for (let items of arr) {
+            if (items.current === that.currents) {
+              //console.log("我有了", "");
+              that.choose = items.choose;
+              that.dati=false
+              break;
+            }
+            this.dati=true
+            that.choose = null;
+          }
+          //console.log(error);
+          if (convert2Arrays(error) == null) {
+            //console.log("???????");
+            that.choose = null;
+          }
+          //console.log("choose", that.choose);
           that.data = res.articles[0];
+          that.total = res.total;
         });
     },
     initcheckbox(json) {
       let option = [];
-
       if (json["Type"] === "1") {
         option = [
           {
@@ -296,15 +328,19 @@ export default {
   }
 };
 </script>
-
 <style lang="scss" scoped>
+body,
+html {
+  color: #fff !important;
+}
 .body {
   font-size: 16px;
   .bscroll {
     -webkit-backface-visibility: hidden;
   }
   .content {
-    -webkit-overflow-scrolling: touch; /* ios5+ */
+    -webkit-overflow-scrolling: touch;
+    /* ios5+ */
     height: 100%;
     background: #fff;
     padding: 12px 8px;
@@ -317,20 +353,16 @@ export default {
       text-align: center;
       color: white;
     }
-
     .title {
       line-height: 25px;
     }
-
     .img {
       width: 100%;
       height: 10rem;
     }
-
     .item {
       .itemcontent {
         display: flex;
-
         div:first-child {
           width: 30px;
           height: 30px;
@@ -342,7 +374,6 @@ export default {
           box-shadow: 0 0 5px #57535324;
           font-weight: bold;
         }
-
         .imgtf {
           width: 30px;
           height: 30px;
@@ -350,10 +381,8 @@ export default {
           border-radius: 100%;
           text-align: center;
           background: white;
-
           font-weight: bold;
         }
-
         div:last-child {
           height: 30px;
           line-height: 30px;
@@ -361,37 +390,30 @@ export default {
         }
       }
     }
-
     .answer {
       padding: 10px;
       margin: 10px 0;
       width: 100%;
       background: #f7f9fa;
-
       :last-child {
         float: right;
         color: #a7a7a7;
       }
     }
   }
-
   .jiexi {
     padding: 12px 8px;
     margin: 10px 0;
     background: #fff;
-
     b:first-child {
       color: #1dd1aa;
     }
-
     span:last-child {
       float: right;
     }
-
     div:first-child {
       margin-bottom: 16px;
     }
-
     div:last-child {
       text-indent: 16px;
       width: 100%;
